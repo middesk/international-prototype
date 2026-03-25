@@ -1,16 +1,34 @@
-# React + Vite
+# International KYB Prototype
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interactive prototype for Middesk's International Know Your Business (KYB) verification product. This is a **prototype only** — it uses mock data and is intended for internal demos and design exploration, not production use.
 
-Currently, two official plugins are available:
+## What this covers
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Order flow** — Full-page order creation matching the Middesk dashboard, with region/geography selection and jurisdiction-specific form fields
+- **Business selection** — Intermediate page for selecting from multiple registry matches, with confidence scoring and ranked results
+- **Auto-select threshold** — Configurable setting that automatically picks the top match when it exceeds a confidence score
+- **Registration number guidance** — Contextual hints per jurisdiction (e.g. "don't use GST/HST") to help users provide the correct registry identifier
+- **Settings** — Toggle for enabling/disabling International Search, plus the auto-select confidence threshold slider
+- **Regions** — Canada (provincial jurisdictions), Core Europe, Extended Europe, APAC, Australia
 
-## React Compiler
+## Running locally
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm install
+npm run dev
+```
 
-## Expanding the ESLint configuration
+Opens at `http://localhost:5173/`.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+> **Note:** This project depends on `@middesk/components` as a local file dependency (`../components`). Make sure the components repo is cloned as a sibling directory.
+
+## Stack
+
+- React 19 + Vite
+- styled-components
+- react-router-dom v7
+- Mock data (no backend)
+
+## This is a prototype
+
+Everything here is hardcoded mock data. There are no API calls, no auth, no persistence. The goal is to explore UX patterns for international business verification before building the real thing.
