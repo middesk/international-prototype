@@ -1,0 +1,13 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  font: 14px/1.5 'Suisse Intl', system-ui, -apple-system, sans-serif;
+  color: #333333;
+  background: #F9FAFB;
+  -webkit-font-smoothing: antialiased;
+}
+
+body { background: #F9FAFB; }
+#root { min-height: 100vh; }
+
+input, select, textarea, button { font-family: inherit; }
