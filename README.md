@@ -48,73 +48,53 @@ Orders on the dashboard that demonstrate specific design challenges:
 
 ## First-time setup
 
-If you've never used Git or GitHub on your machine, follow these steps. If you already have SSH keys and Node.js, skip to "Running locally."
+If you've never used Git or GitHub on your machine, Claude Code can walk you through it. If you already have SSH keys and Node.js, skip to "Running locally."
 
-### 1. Install prerequisites
+### 1. Install Claude Code and prerequisites
 
-**Node.js** (required to run the prototype):
+Open Terminal (Cmd + Space, type "Terminal") and run:
 ```bash
 brew install node
+npm install -g @anthropic-ai/claude-code
 ```
 
-**Git** (usually pre-installed on Mac, but just in case):
+### 2. Let Claude Code set up Git and GitHub
+
+Start Claude Code from any directory:
 ```bash
-brew install git
+claude
 ```
 
-### 2. Set up GitHub SSH keys
+Then ask it to set you up:
+- "Help me set up Git and SSH keys for GitHub. My email is name@middesk.com"
+- Claude will check if you already have keys, generate them if needed, and walk you through adding them to GitHub
+- It will also configure your Git name and email
 
-SSH keys let your machine authenticate with GitHub without entering a password every time.
+If you'd rather do it manually, the steps are:
+1. Generate a key: `ssh-keygen -t ed25519 -C "your.email@middesk.com"` (press Enter through the prompts)
+2. Copy it: `pbcopy < ~/.ssh/id_ed25519.pub`
+3. Add it at [GitHub → Settings → SSH Keys → New SSH Key](https://github.com/settings/keys)
+4. Set your identity: `git config --global user.name "Your Name"` and `git config --global user.email "your.email@middesk.com"`
 
-**Check if you already have keys:**
+### 3. Clone and run the prototype
+
+Ask Claude Code:
+- "Clone the middesk/international-prototype repo and start the dev server"
+
+Or run manually:
 ```bash
-ls ~/.ssh/id_ed25519.pub
-```
-If that prints a file path, you already have a key — skip to "Add your key to GitHub."
-
-**Generate a new key:**
-```bash
-ssh-keygen -t ed25519 -C "your.email@middesk.com"
-```
-Press Enter to accept the default file location. You can set a passphrase or leave it empty.
-
-**Add your key to the SSH agent:**
-```bash
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_ed25519
+git clone git@github.com:middesk/international-prototype.git
+cd international-prototype
+npm install --legacy-peer-deps
+npm run dev
 ```
 
-**Add your key to GitHub:**
-```bash
-pbcopy < ~/.ssh/id_ed25519.pub
-```
-This copies your public key. Then go to [GitHub → Settings → SSH Keys → New SSH Key](https://github.com/settings/keys), paste it, and save.
-
-**Test the connection:**
-```bash
-ssh -T git@github.com
-```
-You should see "Hi [username]! You've successfully authenticated."
-
-### 3. Configure Git identity
-
-```bash
-git config --global user.name "Your Name"
-git config --global user.email "your.email@middesk.com"
-```
-
-### Alternative: use HTTPS instead of SSH
-
-If SSH feels like too much setup, you can clone via HTTPS instead. You'll need to [create a personal access token](https://github.com/settings/tokens) and use it as your password when prompted:
-
-```bash
-git clone https://github.com/middesk/international-prototype.git
-```
+Opens at `http://localhost:5173/`.
 
 ## Running locally
 
+If you've already cloned the repo:
 ```bash
-git clone git@github.com:middesk/international-prototype.git
 cd international-prototype
 npm install --legacy-peer-deps
 npm run dev
