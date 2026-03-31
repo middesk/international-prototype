@@ -2,6 +2,10 @@
 
 Interactive prototype for Middesk's International Know Your Business (KYB) verification product. This is a **prototype only** — it uses mock data and is intended for internal demos and design exploration, not production use.
 
+## Demo
+
+<video src="public/demo.mp4" width="100%" autoplay loop muted></video>
+
 ## What this covers
 
 - **Order flow** — Full-page order creation matching the Middesk dashboard, with region/geography selection and jurisdiction-specific form fields
