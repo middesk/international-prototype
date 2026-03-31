@@ -30,16 +30,33 @@ A competing UX direction that replaces the order form with an autocomplete searc
 
 ## Design review tools (on `main`)
 
-Built into the prototype for walking designers and stakeholders through UX considerations:
+Built into the prototype for walking designers and stakeholders through UX considerations.
 
-- **Design Review overlay** — Toggle button (bottom-right) that pins numbered annotations to UI elements. Each callout describes a design tension with persona-specific perspectives (Compliance, Ops, PM). Next/Prev navigates across pages with mock data injected automatically. Also activatable via `?review=true` query param.
-- **Flow Map** (`/flow-map`) — Zoomed-out product flow diagram with tension points mapped to each stage. Click any tension to expand details, then "View in prototype" to jump to the live UI.
-- **Vendor Gaps** (`/vendor-gaps`) — Table mapping 10 vendor-driven UX tensions to their root cause across Kyckr, AsiaVerify, and RegHub. Expandable rows show where each gap surfaces in the product.
-- **State Patterns** (`/state-patterns`) — Reference of 35 UI states across 7 product areas that designers need to account for. Each state links to a sample order that demonstrates it.
+### Dashboard with edge-case orders
 
-### Edge-case sample orders
-Orders on the dashboard that demonstrate specific design challenges:
-- Gibraltar (empty report), Tencent/China (CJK characters), Quebec (French registry), Revolut (multi-jurisdiction cross-country), Shopify Federal (federal vs. provincial), SolarTech (corporate shareholders), Nordic Payments (no address + foreign status), Sea Limited (async/pending)
+The orders list includes sample orders that demonstrate specific design challenges — each tagged with an amber label (Empty Report, CJK Characters, Multi-Jurisdiction, etc.). Click any order to see the edge case in context.
+
+![Dashboard with edge-case order tags](public/screenshot-dashboard.png)
+
+### Flow Map (`/flow-map`)
+
+Zoomed-out product flow diagram with tension points mapped to each stage. Click any tension to expand details, then "View in prototype" to jump to the live UI. Edge-case sample orders listed at the bottom with direct links.
+
+![UX Tension Flow Map](public/screenshot-flowmap.png)
+
+### Vendor Gaps (`/vendor-gaps`)
+
+Table mapping 10 vendor-driven UX tensions to their root cause across Kyckr, AsiaVerify, and RegHub. Filter by category (Data Quality, Normalization, Latency, etc.). Click any row to expand and see where the gap surfaces in the product and detailed vendor behavior.
+
+![Vendor Data Flow Tensions](public/screenshot-vendorgaps.png)
+
+### Design Review overlay
+
+Toggle button (bottom-right, "Design Review") that pins numbered annotations to UI elements. Each callout describes a design tension with persona-specific perspectives (Compliance, Ops, PM). Next/Prev navigates across pages with mock data injected automatically. Also activatable via `?review=true` query param.
+
+### State Patterns (`/state-patterns`)
+
+Reference of 35 UI states across 7 product areas that designers need to account for. Each state shows what triggers it, which vendor causes it, and links to a sample order that demonstrates it.
 
 ## Related resources
 
