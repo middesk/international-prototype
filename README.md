@@ -49,13 +49,93 @@ Orders on the dashboard that demonstrate specific design challenges:
 ## Running locally
 
 ```bash
-npm install
+git clone git@github.com:middesk/international-prototype.git
+cd international-prototype
+npm install --legacy-peer-deps
 npm run dev
 ```
 
-Opens at `http://localhost:5173/`.
+Opens at `http://localhost:5173/`. No additional dependencies or sibling repos needed.
 
-> **Note:** This project depends on `@middesk/components` as a local file dependency (`../components`). Make sure the components repo is cloned as a sibling directory.
+## Making changes with Claude Code
+
+This prototype is designed to be modified by PMs and designers using [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — no coding experience required. Claude Code is a CLI tool that reads your codebase and makes changes based on natural language instructions.
+
+### Setup
+
+1. Install Claude Code:
+   ```bash
+   npm install -g @anthropic-ai/claude-code
+   ```
+
+2. Navigate to this project and start Claude Code:
+   ```bash
+   cd international-prototype
+   claude
+   ```
+
+3. Describe what you want in plain language. Examples:
+   - "Add a new sample order for a Japanese company with CJK characters"
+   - "Change the region selection to show flat prices instead of multiples"
+   - "Add a new tension point about monitoring to the flow map"
+   - "Make the People tab always visible with an explanation when empty"
+   - "Add a new row to the Vendor Gaps page about address formatting"
+
+Claude will read the relevant files, propose changes, and ask for your approval before editing.
+
+### Tips
+
+- **Be specific about what you want**, not how to code it. "Add a warning when the report has fewer than 3 fields" is better than "edit OrderDetailPage.jsx."
+- **Reference existing patterns.** "Add a new edge-case order like the Gibraltar one, but for Japan" — Claude will find and follow the pattern.
+- **Run the dev server first** (`npm run dev`) so you see changes live. Vite hot-reloads automatically.
+- **Ask Claude to explain first.** "What files would I need to change to add a new design review page?" gives you context before committing.
+
+### Branching and version control
+
+Use branches to keep experiments separate from the working prototype.
+
+**Create a branch before exploring a new direction:**
+```bash
+git checkout -b explore/your-experiment-name
+```
+
+Name branches descriptively: `explore/monitoring-ux`, `explore/ubo-flow`, `explore/pricing-redesign`.
+
+**Commit your work** — ask Claude Code:
+- "Commit what we've done so far"
+- "Commit and push to GitHub"
+
+Or manually:
+```bash
+git add -A
+git commit -m "Add monitoring page with alert states"
+git push -u origin explore/your-experiment-name
+```
+
+**When to branch vs. commit to `main`:**
+
+| Scenario | What to do |
+|---|---|
+| Adding design review pages, tensions, state patterns, edge-case orders | Commit to `main` — reference tooling, not a product direction |
+| Exploring an alternative UX flow | New `explore/` branch — keeps main clean |
+| Redesigning a core interaction | New branch — competing direction |
+
+**Get back to a clean state:**
+```bash
+git checkout main
+git pull
+npm run dev
+```
+
+**If something breaks**, ask Claude Code: "Something is broken, can you fix it?" — it can read errors and debug.
+
+### Collaboration
+
+1. Create a branch for your exploration
+2. Make changes with Claude Code
+3. Ask Claude to commit and push
+4. Share the branch name with others — they can check it out and run locally
+5. If the exploration is worth keeping, merge into `main`
 
 ## Stack
 
