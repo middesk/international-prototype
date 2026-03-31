@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import NewOrderModal from '../components/NewOrderModal'
@@ -151,6 +151,20 @@ function getInsights(order) {
 export default function OrdersPage({ orders, onNewOrder, internationalSearchEnabled }) {
   const navigate = useNavigate()
   const [showModal, setShowModal] = useState(false)
+  const [reviewStep, setReviewStep] = useState(null)
+
+  // Listen for review overlay actions to open modal at specific steps
+  useEffect(() => {
+    function handleReviewAction(e) {
+      const action = e.detail
+      if (action?.startsWith('open-modal-step-')) {
+        setReviewStep(action)
+        setShowModal(true)
+      }
+    }
+    window.addEventListener('review-action', handleReviewAction)
+    return () => window.removeEventListener('review-action', handleReviewAction)
+  }, [])
 
   return (
     <div>
@@ -168,7 +182,7 @@ export default function OrdersPage({ orders, onNewOrder, internationalSearchEnab
             <PageBtn>&rsaquo;</PageBtn>
           </PageNav>
         </TableToolbar>
-        <Table>
+        <Table data-tension="15">
           <Thead>
             <tr>
               <Th>Status</Th>
@@ -179,6 +193,17 @@ export default function OrdersPage({ orders, onNewOrder, internationalSearchEnab
           <tbody>
             {orders.map(order => {
               const insights = getInsights(order)
+              const edgeCases = {
+                ord_003: 'Async / Pending',
+                ord_004: 'Empty Report',
+                ord_005: 'CJK Characters',
+                ord_007: 'French Registry',
+                ord_008: 'Multi-Jurisdiction',
+                ord_009: 'Corporate Shareholders',
+                ord_010: 'No Address + Foreign Status',
+                ord_011: 'Federal vs. Provincial',
+              }
+              const edgeLabel = edgeCases[order.id]
               return (
                 <Tr key={order.id} onClick={() => navigate(`/orders/${order.id}`)}>
                   <Td>
@@ -189,6 +214,11 @@ export default function OrdersPage({ orders, onNewOrder, internationalSearchEnab
                   </Td>
                   <Td>
                     <BusinessName>{order.businessName}</BusinessName>
+                    {edgeLabel && (
+                      <span style={{ fontSize: 10, fontWeight: 600, color: '#92400E', background: '#FFF7ED', border: '1px solid #FDE68A', borderRadius: 10, padding: '1px 7px', marginLeft: 8 }}>
+                        {edgeLabel}
+                      </span>
+                    )}
                   </Td>
                   <Td>
                     {insights ? (
@@ -212,12 +242,14 @@ export default function OrdersPage({ orders, onNewOrder, internationalSearchEnab
 
       {showModal && (
         <NewOrderModal
-          onClose={() => setShowModal(false)}
+          onClose={() => { setShowModal(false); setReviewStep(null) }}
           onSubmit={data => {
             setShowModal(false)
+            setReviewStep(null)
             onNewOrder(data)
           }}
           internationalSearchEnabled={internationalSearchEnabled}
+          reviewStep={reviewStep}
         />
       )}
     </div>

@@ -453,7 +453,7 @@ function OrderForm({ region, formData, setFormData }) {
   if (region.id === 'canada') {
     const hint = getRegHint('canada', formData.jurisdiction)
     return (
-      <div>
+      <div data-tension="2,3">
         <InfoBox>
           Provide a Business/Corporate Number <strong>or</strong> Company Name, plus the Jurisdiction.
         </InfoBox>
@@ -500,7 +500,7 @@ function OrderForm({ region, formData, setFormData }) {
   if (region.id === 'core-europe' || region.id === 'extended-europe') {
     const hint = getRegHint(region.id, formData.isoCode)
     return (
-      <div>
+      <div data-tension="2,3">
         <InfoBox>
           Provide a Company Number <strong>or</strong> Company Name, plus the ISO country code.
         </InfoBox>
@@ -539,7 +539,7 @@ function OrderForm({ region, formData, setFormData }) {
   if (region.id === 'apac' || region.id === 'australia') {
     const hint = getRegHint(region.id, formData.isoCode)
     return (
-      <div>
+      <div data-tension="2,3,12">
         <InfoBox>
           APAC requires a country code and a keyword (company name or registration number).
         </InfoBox>
@@ -587,11 +587,35 @@ function OrderForm({ region, formData, setFormData }) {
   return null
 }
 
-export default function NewOrderModal({ onClose, onSubmit, internationalSearchEnabled = true }) {
-  const [step, setStep] = useState(internationalSearchEnabled ? 1 : 2)
+export default function NewOrderModal({ onClose, onSubmit, internationalSearchEnabled = true, reviewStep }) {
+  function resolveReview(action) {
+    if (!action) return { step: internationalSearchEnabled ? 1 : 2, region: null, form: {} }
+    if (action === 'open-modal-step-2') return { step: 2, region: REGIONS.find(r => r.id === 'core-europe'), form: {} }
+    if (action === 'open-modal-step-3') return { step: 3, region: REGIONS.find(r => r.id === 'core-europe'), form: { isoCode: 'DE', registrationNumber: 'HRB 190048 B', businessName: 'N26 GmbH' } }
+    if (action === 'open-modal-step-3-apac') return { step: 3, region: REGIONS.find(r => r.id === 'apac'), form: { isoCode: 'SG', keyword: 'Sea Limited', language: 'EN' } }
+    return { step: internationalSearchEnabled ? 1 : 2, region: null, form: {} }
+  }
+
+  const init = resolveReview(reviewStep)
+  const [step, setStep] = useState(init.step)
   const [orderType, setOrderType] = useState(internationalSearchEnabled ? 'international' : 'domestic')
-  const [selectedRegion, setSelectedRegion] = useState(null)
-  const [formData, setFormData] = useState({})
+  const [selectedRegion, setSelectedRegion] = useState(init.region)
+  const [formData, setFormData] = useState(init.form)
+
+  // Listen for review actions while modal is open — jump to correct step with mock data
+  React.useEffect(() => {
+    function handleReviewAction(e) {
+      const action = e.detail
+      if (!action?.startsWith('open-modal-step-')) return
+      const r = resolveReview(action)
+      setStep(r.step)
+      setOrderType('international')
+      if (r.region) setSelectedRegion(r.region)
+      setFormData(r.form)
+    }
+    window.addEventListener('review-action', handleReviewAction)
+    return () => window.removeEventListener('review-action', handleReviewAction)
+  }, [])
 
   const totalSteps = 3
   const firstStep = internationalSearchEnabled ? 1 : 2
@@ -668,7 +692,7 @@ export default function NewOrderModal({ onClose, onSubmit, internationalSearchEn
                   </div>
                 </RadioRow>
               ) : (
-                <div style={{ opacity: 0.4, padding: '8px 0', cursor: 'not-allowed' }}>
+                <div data-tension="13" style={{ opacity: 0.4, padding: '8px 0', cursor: 'not-allowed' }}>
                   <RadioRow as="div">
                     <Radio $checked={false} />
                     <div>
@@ -693,7 +717,7 @@ export default function NewOrderModal({ onClose, onSubmit, internationalSearchEn
         )}
 
         {step === 2 && (
-          <RegionGrid>
+          <RegionGrid data-tension="1">
             {REGIONS.map(region => (
               <RegionCard
                 key={region.id}
@@ -703,7 +727,7 @@ export default function NewOrderModal({ onClose, onSubmit, internationalSearchEn
                 <RegionFlag>{region.flag}</RegionFlag>
                 <RegionName>{region.label}</RegionName>
                 <RegionMarkets>{region.markets.split(', ').slice(0, 4).join(', ')}{region.markets.split(', ').length > 4 ? '...' : ''}</RegionMarkets>
-                <RegionMultiple>{region.multiple} price multiple</RegionMultiple>
+                <RegionMultiple data-tension="1">{region.multiple} price multiple</RegionMultiple>
               </RegionCard>
             ))}
           </RegionGrid>

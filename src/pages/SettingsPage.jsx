@@ -207,7 +207,7 @@ export default function SettingsPage({ settings, onUpdateSettings }) {
 
       <Card>
         <CardTitle>Products</CardTitle>
-        <SettingRow>
+        <SettingRow data-tension="13">
           <SettingInfo>
             <SettingLabel>
               International Search

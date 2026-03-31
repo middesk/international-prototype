@@ -297,7 +297,7 @@ export default function BusinessSelectPage({ onSelectBusiness, settings }) {
               Top match scores {results[0]?.score}% — above your {threshold}% threshold. Selecting automatically...
             </AutoPickBanner>
           )}
-          <TableCard>
+          <TableCard data-tension="7">
             {results.map((biz, i) => (
               <BusinessRow key={i} onClick={() => handleSelect(biz)}>
                 <BusinessInfo>
@@ -312,6 +312,11 @@ export default function BusinessSelectPage({ onSelectBusiness, settings }) {
                     <RegNumber>{biz.registrationNumber}</RegNumber>
                     {biz.legalForm && <span>{biz.legalForm}</span>}
                   </BusinessMeta>
+                  {biz.note && (
+                    <div style={{ fontSize: 11, color: '#92400E', background: '#FFF7ED', border: '1px solid #FDE68A', borderRadius: 4, padding: '2px 8px', marginTop: 4, display: 'inline-block' }}>
+                      {biz.note}
+                    </div>
+                  )}
                 </BusinessInfo>
                 <ScoreBarOuter><ScoreBarFill $score={biz.score} /></ScoreBarOuter>
                 <SelectBtn>Select</SelectBtn>
@@ -334,9 +339,15 @@ function getMockResults(searchData) {
 
   const mocksByKey = {
     'CA-ON': [
-      { name: 'Shopify Inc.', registrationNumber: '1234567', jurisdiction: 'Ontario, Canada', legalForm: 'Corporation', status: 'Active', registeredDate: '2006-09-28' },
+      { name: 'Shopify Inc.', registrationNumber: '1234567', jurisdiction: 'Ontario, Canada', legalForm: 'Corporation', status: 'Active', registeredDate: '2006-09-28', note: 'Provincial registration' },
+      { name: 'Shopify Inc.', registrationNumber: '7654321-8', jurisdiction: 'Federal, Canada', legalForm: 'Corporation', status: 'Active', registeredDate: '2006-09-28', note: 'Federal (CBCA) registration — same entity' },
       { name: 'Shopify Payments (Canada) Inc.', registrationNumber: '2345678', jurisdiction: 'Ontario, Canada', legalForm: 'Corporation', status: 'Active', registeredDate: '2014-02-15' },
       { name: 'Shopify Commerce Inc.', registrationNumber: '3456789', jurisdiction: 'Ontario, Canada', legalForm: 'Corporation', status: 'Active', registeredDate: '2019-08-01' },
+    ],
+    'CA-FED': [
+      { name: 'Shopify Inc.', registrationNumber: '7654321-8', jurisdiction: 'Federal, Canada', legalForm: 'Corporation', status: 'Active', registeredDate: '2006-09-28', note: 'Federal (CBCA) registration' },
+      { name: 'Shopify Inc.', registrationNumber: '1234567', jurisdiction: 'Ontario, Canada', legalForm: 'Corporation', status: 'Active', registeredDate: '2006-09-28', note: 'Provincial registration — same entity' },
+      { name: 'Shopify International Ltd', registrationNumber: '614814', jurisdiction: 'Dublin, Ireland', legalForm: 'Ltd', status: 'Active', registeredDate: '2015-09-01', note: 'International subsidiary' },
     ],
     'CA-BC': [
       { name: 'Wealthsimple Technologies Inc.', registrationNumber: 'BC0123456', jurisdiction: 'British Columbia, Canada', legalForm: 'Corporation', status: 'Active', registeredDate: '2014-09-12' },

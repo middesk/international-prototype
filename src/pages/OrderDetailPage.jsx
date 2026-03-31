@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -232,6 +232,13 @@ export default function OrderDetailPage({ orders }) {
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('overview')
 
+  // Listen for review overlay tab changes
+  useEffect(() => {
+    function handleTab(e) { if (e.detail) setActiveTab(e.detail) }
+    window.addEventListener('review-tab', handleTab)
+    return () => window.removeEventListener('review-tab', handleTab)
+  }, [])
+
   const order = orders?.find(o => o.id === id)
 
   if (!order) {
@@ -247,9 +254,31 @@ export default function OrderDetailPage({ orders }) {
   const hasPeople = r && (r.parties?.length > 0 || r.shareholders?.length > 0)
   const hasEvents = r && r.events?.length > 0
 
+  const EDGE_CASES = {
+    ord_003: { label: 'Edge case: Async / Pending', desc: 'Order is processing. In production, APAC (especially China) can take hours. No notification model exists.' },
+    ord_004: { label: 'Edge case: Empty Report', desc: 'Extended Europe — minimal data returned (name, jurisdiction, status only). No people, no events, no legal form.' },
+    ord_005: { label: 'Edge case: CJK Characters', desc: 'Chinese registry data — name, entity type, role, and address all in local script. Tests layout and character rendering.' },
+    ord_007: { label: 'Edge case: French Registry', desc: 'Quebec — status "DISSOUTE", role "Administrateur", events in French. Tests language handling outside APAC.' },
+    ord_008: { label: 'Edge case: Multi-Jurisdiction Entity', desc: 'Revolut is registered in UK, Lithuania, and Australia. Current model forces one order per jurisdiction — no way to see the full corporate structure.' },
+    ord_009: { label: 'Edge case: Corporate Shareholders', desc: 'Shareholders include Tencent Holdings and SoftBank — corporate entities, not individuals. UBO requires traversing the ownership chain, which isn\'t supported.' },
+    ord_010: { label: 'Edge case: No Address + Foreign-Language Status', desc: 'Norwegian registry returns no address and status "Under avvikling" (liquidation). Standardization mapped it, but raw value is in Norwegian.' },
+    ord_011: { label: 'Edge case: Federal vs. Provincial (Same Country)', desc: 'Shopify is incorporated federally (CBCA) and registered provincially in Ontario. Same business, two jurisdictions, two registration numbers. Which one do you verify? The current model treats these as separate orders.' },
+  }
+  const edgeCase = EDGE_CASES[order.id]
+
   return (
     <div>
       <BackBtn onClick={() => navigate('/')}>&lsaquo; Businesses</BackBtn>
+
+      {edgeCase && (
+        <div style={{
+          background: '#FFF7ED', border: '1px solid #FDE68A', borderRadius: 8,
+          padding: '10px 16px', marginBottom: 16, fontSize: 13, lineHeight: 1.5
+        }}>
+          <strong style={{ color: '#92400E' }}>{edgeCase.label}</strong>
+          <span style={{ color: '#78716C', marginLeft: 8 }}>{edgeCase.desc}</span>
+        </div>
+      )}
 
       <Header>
         <div>
@@ -268,7 +297,7 @@ export default function OrderDetailPage({ orders }) {
       </Header>
 
       {!r ? (
-        <PendingCard>
+        <PendingCard data-tension="11">
           <Spinner />
           <PendingTitle>Retrieving Business Data</PendingTitle>
           <PendingDesc>
@@ -281,7 +310,7 @@ export default function OrderDetailPage({ orders }) {
           <TabBar>
             <Tab $active={activeTab === 'overview'} onClick={() => setActiveTab('overview')}>Overview</Tab>
             {hasPeople && (
-              <Tab $active={activeTab === 'people'} onClick={() => setActiveTab('people')}>
+              <Tab data-tension="5" $active={activeTab === 'people'} onClick={() => setActiveTab('people')}>
                 People {r.parties?.length ? `(${(r.parties?.length || 0) + (r.shareholders?.length || 0)})` : ''}
               </Tab>
             )}
@@ -295,19 +324,21 @@ export default function OrderDetailPage({ orders }) {
           {activeTab === 'overview' && (
             <>
               <Grid>
-                <Card>
+                <Card data-tension="4,14">
                   <CardTitle>General Information</CardTitle>
                   <Attr label="Legal Name" value={r.name} />
                   <Attr label="Registration Number" value={r.registrationNumber} />
                   <Attr label="Entity Type" value={r.registryType || r.legalForm} />
                   <Attr label="Registration Status">
-                    <Badge $v={r.standardizedStatus?.toLowerCase() === 'active' ? 'active' : 'pending'}>
-                      {r.standardizedStatus}
-                    </Badge>
+                    <span data-tension="6">
+                      <Badge $v={r.standardizedStatus?.toLowerCase() === 'active' ? 'active' : 'pending'}>
+                        {r.standardizedStatus}
+                      </Badge>
+                    </span>
                   </Attr>
                   <Attr label="Registry Status" value={r.registryStatus} />
                 </Card>
-                <Card>
+                <Card data-tension="10">
                   <CardTitle>Registration Details</CardTitle>
                   <Attr label="Registered Jurisdiction" value={r.registeredJurisdiction} />
                   <Attr label="Registered Date" value={r.registeredDate} />
@@ -329,7 +360,21 @@ export default function OrderDetailPage({ orders }) {
                   {r.registrationAuthority && <Attr label="Source" value={r.source} />}
                 </Card>
               </Grid>
-              <SourceBox>
+              {r.relatedEntities?.length > 0 && (
+                <Card style={{ marginBottom: 16 }}>
+                  <CardTitle>Related Entities (Other Jurisdictions)</CardTitle>
+                  {r.relatedEntities.map((re, i) => (
+                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: i < r.relatedEntities.length - 1 ? '1px solid #ECF0F4' : 'none' }}>
+                      <div>
+                        <div style={{ fontWeight: 600, color: '#0B3139', fontSize: 14 }}>{re.name}</div>
+                        <div style={{ fontSize: 12, color: '#5F6874', marginTop: 2 }}>{re.jurisdiction} &middot; {re.regNumber}</div>
+                      </div>
+                      <Badge $v="type" style={{ fontSize: 11 }}>{re.relationship}</Badge>
+                    </div>
+                  ))}
+                </Card>
+              )}
+              <SourceBox data-tension="8">
                 Data retrieved from <strong style={{ marginLeft: 4 }}>{r.source}</strong>
               </SourceBox>
             </>

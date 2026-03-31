@@ -109,6 +109,33 @@ export default function Sidebar() {
         Monitoring
       </DisabledLink>
 
+      <SectionLabel>Design Review</SectionLabel>
+      <StyledNavLink to="/flow-map">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="1" y="3" width="4" height="3" rx="0.5"/>
+          <rect x="6" y="3" width="4" height="3" rx="0.5"/>
+          <rect x="11" y="3" width="4" height="3" rx="0.5"/>
+          <path d="M3 6v2.5h10V6M8 8.5V11"/>
+          <rect x="6" y="11" width="4" height="3" rx="0.5"/>
+        </svg>
+        Flow Map
+      </StyledNavLink>
+      <StyledNavLink to="/vendor-gaps">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M2 4h12M2 8h8M2 12h10"/>
+        </svg>
+        Vendor Gaps
+      </StyledNavLink>
+      <StyledNavLink to="/state-patterns">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="2" y="2" width="5" height="5" rx="1"/>
+          <rect x="9" y="2" width="5" height="5" rx="1"/>
+          <rect x="2" y="9" width="5" height="5" rx="1"/>
+          <rect x="9" y="9" width="5" height="5" rx="1"/>
+        </svg>
+        State Patterns
+      </StyledNavLink>
+
       <SectionLabel>Settings</SectionLabel>
       <StyledNavLink to="/settings">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">

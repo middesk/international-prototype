@@ -6,11 +6,15 @@ import OrdersPage from './pages/OrdersPage'
 import OrderDetailPage from './pages/OrderDetailPage'
 import SettingsPage from './pages/SettingsPage'
 import BusinessSelectPage from './pages/BusinessSelectPage'
+import VendorGapsPage from './pages/VendorGapsPage'
+import StatePatternsPage from './pages/StatePatternsPage'
+import FlowDiagram from './components/FlowDiagram'
 import { INITIAL_ORDERS, MOCK_RESULTS } from './mockData'
+import ReviewOverlay from './components/ReviewOverlay'
 
 const Layout = styled.div`
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
   background: #FAFAFA;
 `
 
@@ -79,6 +83,9 @@ function AppRoutes() {
       } />
       <Route path="/orders/:id" element={<OrderDetailPage orders={orders} onUpdate={updateOrder} />} />
       <Route path="/settings" element={<SettingsPage settings={settings} onUpdateSettings={setSettings} />} />
+      <Route path="/flow-map" element={<FlowDiagram />} />
+      <Route path="/vendor-gaps" element={<VendorGapsPage />} />
+      <Route path="/state-patterns" element={<StatePatternsPage />} />
       <Route path="/select-business" element={
         <BusinessSelectPage
           onSelectBusiness={handleSelectBusiness}
@@ -96,6 +103,7 @@ export default function App() {
       <Main>
         <AppRoutes />
       </Main>
+      <ReviewOverlay />
     </Layout>
   )
 }
