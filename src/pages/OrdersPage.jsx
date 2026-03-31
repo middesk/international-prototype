@@ -13,11 +13,11 @@ const TopBar = styled.div`
 const PageTitle = styled.h1`
   font-size: 24px;
   font-weight: 600;
-  color: #0B3139;
+  color: ${p => p.theme.textPrimary};
 `
 
 const PlaceOrderBtn = styled.button`
-  background: #3C5A61;
+  background: ${p => p.theme.accent};
   color: #fff;
   border: none;
   border-radius: 35px;
@@ -26,14 +26,14 @@ const PlaceOrderBtn = styled.button`
   font-weight: 600;
   cursor: pointer;
   transition: all 250ms ease;
-  &:hover { background: #6D8388; }
+  &:hover { background: ${p => p.theme.accentHover}; }
 `
 
 const TableCard = styled.div`
-  background: #fff;
+  background: ${p => p.theme.surface};
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
 `
 
 const TableToolbar = styled.div`
@@ -41,9 +41,9 @@ const TableToolbar = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-  border-bottom: 1px solid #D9E0E8;
+  border-bottom: 1px solid ${p => p.theme.border};
   font-size: 12px;
-  color: #9DADB0;
+  color: ${p => p.theme.textFaint};
 `
 
 const PageNav = styled.div`
@@ -51,12 +51,12 @@ const PageNav = styled.div`
   align-items: center;
   gap: 8px;
   font-size: 12px;
-  color: #9DADB0;
+  color: ${p => p.theme.textFaint};
 `
 
 const PageBtn = styled.button`
   background: none;
-  border: 1px solid #D9E0E8;
+  border: 1px solid ${p => p.theme.border};
   border-radius: 4px;
   width: 26px;
   height: 26px;
@@ -64,9 +64,9 @@ const PageBtn = styled.button`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #9DADB0;
+  color: ${p => p.theme.textFaint};
   font-size: 14px;
-  &:hover { background: #ECF0F4; }
+  &:hover { background: ${p => p.theme.surface2}; }
 `
 
 const Table = styled.table`
@@ -75,7 +75,7 @@ const Table = styled.table`
 `
 
 const Thead = styled.thead`
-  border-bottom: 1px solid #D9E0E8;
+  border-bottom: 1px solid ${p => p.theme.border};
 `
 
 const Th = styled.th`
@@ -83,29 +83,29 @@ const Th = styled.th`
   padding: 10px 20px;
   font-size: 11px;
   font-weight: 600;
-  color: #5F6874;
+  color: ${p => p.theme.textMuted};
   text-transform: uppercase;
   letter-spacing: 0.5px;
 `
 
 const Tr = styled.tr`
-  border-bottom: 1px solid #ECF0F4;
+  border-bottom: 1px solid ${p => p.theme.borderLight};
   cursor: pointer;
   transition: background 100ms;
-  &:hover { background: #F9FAFB; }
+  &:hover { background: ${p => p.theme.surface2}; }
   &:last-child { border-bottom: none; }
 `
 
 const Td = styled.td`
   padding: 12px 20px;
   font-size: 13.5px;
-  color: #333;
+  color: ${p => p.theme.text};
   vertical-align: middle;
 `
 
 const BusinessName = styled.span`
   font-weight: 600;
-  color: #0B3139;
+  color: ${p => p.theme.textPrimary};
 `
 
 const StatusBadge = styled.span`
@@ -127,7 +127,7 @@ const InsightsCell = styled.div`
   align-items: center;
   gap: 14px;
   font-size: 12px;
-  color: #5F6874;
+  color: ${p => p.theme.textMuted};
 `
 
 const InsightDot = styled.span`
@@ -199,7 +199,7 @@ export default function OrdersPage({ orders, onNewOrder, internationalSearchEnab
                       </InsightsCell>
                     ) : (
                       <InsightsCell>
-                        <span style={{ color: '#BDC2C9' }}>Pending</span>
+                        <span style={{ color: '#3D5D66' }}>Pending</span>
                       </InsightsCell>
                     )}
                   </Td>

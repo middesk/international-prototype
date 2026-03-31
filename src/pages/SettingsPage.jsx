@@ -4,33 +4,33 @@ import styled from 'styled-components'
 const PageTitle = styled.h1`
   font-size: 24px;
   font-weight: 600;
-  color: #0B3139;
+  color: ${p => p.theme.textPrimary};
   margin-bottom: 6px;
 `
 
 const PageDesc = styled.p`
   font-size: 14px;
-  color: #5F6874;
+  color: ${p => p.theme.textMuted};
   margin-bottom: 28px;
 `
 
 const Card = styled.div`
-  background: #fff;
+  background: ${p => p.theme.surface};
   border-radius: 10px;
   padding: 24px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
   margin-bottom: 16px;
 `
 
 const CardTitle = styled.h3`
   font-size: 11px;
   font-weight: 600;
-  color: #9DADB0;
+  color: ${p => p.theme.textFaint};
   text-transform: uppercase;
   letter-spacing: 0.6px;
   margin-bottom: 16px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #ECF0F4;
+  border-bottom: 1px solid ${p => p.theme.borderLight};
 `
 
 const SettingRow = styled.div`
@@ -38,7 +38,7 @@ const SettingRow = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 14px 0;
-  border-bottom: 1px solid #ECF0F4;
+  border-bottom: 1px solid ${p => p.theme.borderLight};
   &:last-child { border-bottom: none; }
 `
 
@@ -50,13 +50,13 @@ const SettingInfo = styled.div`
 const SettingLabel = styled.div`
   font-size: 14px;
   font-weight: 600;
-  color: #0B3139;
+  color: ${p => p.theme.textPrimary};
   margin-bottom: 3px;
 `
 
 const SettingDesc = styled.div`
   font-size: 12px;
-  color: #5F6874;
+  color: ${p => p.theme.textMuted};
   line-height: 1.5;
 `
 
@@ -69,7 +69,7 @@ const Toggle = styled.button`
   position: relative;
   flex-shrink: 0;
   transition: background 200ms;
-  background: ${p => p.$on ? '#3C5A61' : '#D9E0E8'};
+  background: ${p => p.$on ? p.theme.accent : p.theme.border};
 
   &::after {
     content: '';
@@ -116,7 +116,7 @@ const Slider = styled.input`
   -webkit-appearance: none;
   appearance: none;
   border-radius: 2px;
-  background: #ECF0F4;
+  background: ${p => p.theme.border};
   outline: none;
   cursor: pointer;
 
@@ -126,7 +126,7 @@ const Slider = styled.input`
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: ${p => p.$active ? '#3C5A61' : '#9DADB0'};
+    background: ${p => p.$active ? p.theme.accent : p.theme.textFaint};
     cursor: pointer;
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   }
@@ -135,7 +135,7 @@ const Slider = styled.input`
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: ${p => p.$active ? '#3C5A61' : '#9DADB0'};
+    background: ${p => p.$active ? p.theme.accent : p.theme.textFaint};
     cursor: pointer;
     border: none;
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
@@ -145,7 +145,7 @@ const Slider = styled.input`
 const ThresholdValue = styled.div`
   font-size: 18px;
   font-weight: 600;
-  color: ${p => p.$active ? '#3C5A61' : '#9DADB0'};
+  color: ${p => p.$active ? p.theme.accent : p.theme.textFaint};
   min-width: 48px;
   text-align: right;
   font-variant-numeric: tabular-nums;
@@ -153,7 +153,7 @@ const ThresholdValue = styled.div`
 
 const SliderLabel = styled.div`
   font-size: 10px;
-  color: #9DADB0;
+  color: ${p => p.theme.textFaint};
   text-align: right;
 `
 
@@ -161,7 +161,7 @@ const ThresholdPreview = styled.div`
   margin-top: 8px;
   font-size: 11px;
   line-height: 1.5;
-  color: #5F6874;
+  color: ${p => p.theme.textMuted};
 `
 
 const ThresholdBadge = styled.span`

@@ -1,17 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
 import Sidebar from './components/Sidebar'
 import OrdersPage from './pages/OrdersPage'
 import OrderDetailPage from './pages/OrderDetailPage'
 import SettingsPage from './pages/SettingsPage'
 import BusinessSelectPage from './pages/BusinessSelectPage'
 import { INITIAL_ORDERS, MOCK_RESULTS } from './mockData'
+import { light, dark } from './theme'
+
+const GlobalStyle = createGlobalStyle`
+  body, #root {
+    background: ${p => p.theme.pageBg};
+    color: ${p => p.theme.text};
+  }
+`
 
 const Layout = styled.div`
   display: flex;
   min-height: 100vh;
-  background: #FAFAFA;
+  background: ${p => p.theme.pageBg};
 `
 
 const Main = styled.main`
@@ -31,13 +39,24 @@ function AppRoutes() {
 
   function createOrder(data, selectedBusiness) {
     const id = `ord_${String(orders.length + 1).padStart(3, '0')}`
+    const fd = data.formData
+    const biz = selectedBusiness || {}
     const newOrder = {
       id,
-      businessName: selectedBusiness?.name || data.formData.businessName || data.formData.keyword || data.formData.registrationNumber || 'Pending...',
+      businessName: biz.name || biz.businessName || fd.businessName || fd.keyword || fd.registrationNumber || 'Pending...',
       region: data.region.label,
       regionId: data.region.id,
-      isoCode: data.formData.isoCode || 'CA',
-      registrationNumber: selectedBusiness?.registrationNumber || data.formData.registrationNumber || data.formData.keyword || '—',
+      isoCode: fd.isoCode || 'CA',
+      registrationNumber: biz.registrationNumber || fd.registrationNumber || fd.keyword || '—',
+      entityType: biz.entityType || fd.entityType || '',
+      addressLine1: fd.addressLine1 || '', city: fd.city || '',
+      stateProvince: fd.stateProvince || '', postalCode: fd.postalCode || '',
+      country: fd.country || '',
+      officers: fd.officers || '', dba: fd.dba || '',
+      companyActivity: fd.companyActivity || '',
+      incorporationDate: fd.incorporationDate || '',
+      registeredAgent: fd.registeredAgent || '',
+      shareCapital: fd.shareCapital || '',
       status: 'pending',
       createdAt: new Date().toISOString().split('T')[0],
       result: null
@@ -48,7 +67,7 @@ function AppRoutes() {
     setTimeout(() => {
       const mockResult = MOCK_RESULTS[data.region.id] || MOCK_RESULTS['canada']
       const result = selectedBusiness
-        ? { ...mockResult, name: selectedBusiness.name, registrationNumber: selectedBusiness.registrationNumber }
+        ? { ...mockResult, name: selectedBusiness.name || selectedBusiness.businessName, registrationNumber: selectedBusiness.registrationNumber }
         : mockResult
       setOrders(prev =>
         prev.map(o => o.id === id ? { ...o, status: 'active', result } : o)
@@ -57,7 +76,12 @@ function AppRoutes() {
   }
 
   function handleNewOrder(data) {
-    navigate('/select-business', { state: data })
+    if (data.formData.confirmedBusiness) {
+      // Reg# was resolved — skip BusinessSelectPage
+      createOrder(data, data.formData.confirmedBusiness)
+    } else {
+      navigate('/select-business', { state: data })
+    }
   }
 
   function handleSelectBusiness({ searchData, selectedBusiness }) {
@@ -90,12 +114,28 @@ function AppRoutes() {
 }
 
 export default function App() {
+  const [isDark, setIsDark] = useState(
+    () => window.matchMedia('(prefers-color-scheme: dark)').matches
+  )
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)')
+    const handler = e => setIsDark(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+
+  const theme = isDark ? dark : light
+
   return (
-    <Layout>
-      <Sidebar />
-      <Main>
-        <AppRoutes />
-      </Main>
-    </Layout>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle theme={theme} />
+      <Layout>
+        <Sidebar isDark={isDark} onToggleDark={() => setIsDark(d => !d)} />
+        <Main>
+          <AppRoutes />
+        </Main>
+      </Layout>
+    </ThemeProvider>
   )
 }

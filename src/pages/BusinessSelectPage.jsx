@@ -5,7 +5,7 @@ import styled from 'styled-components'
 const BackBtn = styled.button`
   background: none;
   border: none;
-  color: #3C5A61;
+  color: ${p => p.theme.accent};
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -14,19 +14,19 @@ const BackBtn = styled.button`
   display: flex;
   align-items: center;
   gap: 4px;
-  &:hover { color: #0B3139; }
+  &:hover { color: ${p => p.theme.textPrimary}; }
 `
 
 const PageTitle = styled.h1`
   font-size: 22px;
   font-weight: 700;
-  color: #0B3139;
+  color: ${p => p.theme.textPrimary};
   margin-bottom: 4px;
 `
 
 const PageDesc = styled.p`
   font-size: 14px;
-  color: #5F6874;
+  color: ${p => p.theme.textMuted};
   margin-bottom: 8px;
 `
 
@@ -44,18 +44,18 @@ const MetaBadge = styled.span`
   border-radius: 4px;
   font-size: 12px;
   font-weight: 600;
-  background: #ECF0F4;
-  color: #5F6874;
+  background: ${p => p.theme.surface2};
+  color: ${p => p.theme.textMuted};
 `
 
 const ResultCount = styled.span`
   font-size: 12px;
-  color: #9DADB0;
+  color: ${p => p.theme.textFaint};
 `
 
 const TableCard = styled.div`
-  background: #fff;
-  border: 1px solid #D9E0E8;
+  background: ${p => p.theme.surface};
+  border: 1px solid ${p => p.theme.border};
   border-radius: 8px;
   overflow: hidden;
 `
@@ -65,11 +65,11 @@ const BusinessRow = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 14px 20px;
-  border-bottom: 1px solid #ECF0F4;
+  border-bottom: 1px solid ${p => p.theme.borderLight};
   cursor: pointer;
   transition: background 80ms;
 
-  &:hover { background: #F9FAFB; }
+  &:hover { background: ${p => p.theme.surface2}; }
   &:last-child { border-bottom: none; }
 `
 
@@ -88,7 +88,7 @@ const BusinessNameRow = styled.div`
 const BusinessName = styled.div`
   font-size: 14px;
   font-weight: 600;
-  color: #0B3139;
+  color: ${p => p.theme.textPrimary};
 `
 
 const ScoreBadge = styled.span`
@@ -128,7 +128,7 @@ const ScoreBarOuter = styled.div`
   width: 48px;
   height: 4px;
   border-radius: 2px;
-  background: #ECF0F4;
+  background: ${p => p.theme.surface2};
   overflow: hidden;
   flex-shrink: 0;
   margin-right: 16px;
@@ -150,7 +150,7 @@ const BusinessMeta = styled.div`
   align-items: center;
   gap: 12px;
   font-size: 12px;
-  color: #5F6874;
+  color: ${p => p.theme.textMuted};
 `
 
 const StatusDot = styled.span`
@@ -165,7 +165,7 @@ const StatusDot = styled.span`
 `
 
 const SelectBtn = styled.button`
-  background: #3C5A61;
+  background: ${p => p.theme.accent};
   color: #fff;
   border: none;
   border-radius: 35px;
@@ -175,14 +175,14 @@ const SelectBtn = styled.button`
   cursor: pointer;
   flex-shrink: 0;
   transition: background 120ms;
-  &:hover { background: #6D8388; }
+  &:hover { background: ${p => p.theme.accentHover}; }
 `
 
 const Spinner = styled.div`
   width: 32px;
   height: 32px;
-  border: 3px solid #F0F0F0;
-  border-top-color: #3C5A61;
+  border: 3px solid ${p => p.theme.surface2};
+  border-top-color: ${p => p.theme.accent};
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   margin: 60px auto 16px;
@@ -192,14 +192,14 @@ const Spinner = styled.div`
 const LoadingText = styled.p`
   text-align: center;
   font-size: 14px;
-  color: #5F6874;
+  color: ${p => p.theme.textMuted};
   margin-bottom: 60px;
 `
 
 const RegNumber = styled.span`
   font-family: monospace;
   font-size: 12px;
-  color: #9DADB0;
+  color: ${p => p.theme.textFaint};
 `
 
 const AutoPickBanner = styled.div`
@@ -214,6 +214,26 @@ const AutoPickBanner = styled.div`
   font-size: 13px;
   color: #097F3D;
   font-weight: 500;
+`
+
+const MatchingInfo = styled.div`
+  font-size: 11.5px;
+  color: ${p => p.theme.accent};
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+`
+
+const AttrBadge = styled.span`
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  background: rgba(60,90,97,0.08);
+  color: ${p => p.theme.accent};
+  border: 1px solid ${p => p.theme.borderLight};
 `
 
 export default function BusinessSelectPage({ onSelectBusiness, settings }) {
@@ -264,6 +284,14 @@ export default function BusinessSelectPage({ onSelectBusiness, settings }) {
 
   const isoOrJurisdiction = searchData.formData.isoCode || searchData.formData.jurisdiction
   const searchTerm = searchData.formData.businessName || searchData.formData.keyword || searchData.formData.registrationNumber
+  const fd = searchData.formData
+  const submittedAttrs = [
+    fd.entityType && 'Entity type',
+    fd.addressLine1 && 'Address',
+    fd.city && 'City',
+    fd.stateProvince && 'State/Province',
+    fd.officers && 'Officers'
+  ].filter(Boolean)
 
   return (
     <div>
@@ -278,8 +306,14 @@ export default function BusinessSelectPage({ onSelectBusiness, settings }) {
         <MetaBadge>{searchData.region.label}</MetaBadge>
         {isoOrJurisdiction && <MetaBadge>{isoOrJurisdiction}</MetaBadge>}
         {searchTerm && <MetaBadge>"{searchTerm}"</MetaBadge>}
+        {submittedAttrs.map(attr => <AttrBadge key={attr}>{attr}</AttrBadge>)}
         {!loading && <ResultCount>{results.length} results</ResultCount>}
       </SearchMeta>
+      {submittedAttrs.length > 0 && (
+        <MatchingInfo>
+          ⚡ {submittedAttrs.length} attribute{submittedAttrs.length !== 1 ? 's' : ''} used to improve matching confidence
+        </MatchingInfo>
+      )}
 
       {loading ? (
         <>
@@ -410,6 +444,12 @@ function getMockResults(searchData) {
     ]
   }
 
+  // Count submitted attributes for score boosting
+  const attrCount = [
+    formData.entityType, formData.addressLine1, formData.city,
+    formData.stateProvince, formData.officers
+  ].filter(Boolean).length
+
   return candidates.map((biz, i) => {
     let score
     if (hasRegNumber) {
@@ -421,10 +461,14 @@ function getMockResults(searchData) {
     } else {
       if (i === 0) {
         score = 82 + Math.floor(Math.random() * 10)
+        // Boost top match when extra attributes are submitted
+        if (attrCount > 0) score = Math.min(97, score + attrCount * 3)
       } else if (i === 1) {
         score = 55 + Math.floor(Math.random() * 15)
+        if (attrCount > 0) score = Math.max(20, score - attrCount * 2)
       } else {
         score = Math.max(12, 40 - (i - 2) * 14 + Math.floor(Math.random() * 10))
+        if (attrCount > 0) score = Math.max(8, score - attrCount * 3)
       }
     }
     return { ...biz, score }

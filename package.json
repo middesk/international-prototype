@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@middesk/components": "file:../components",
+    "@middesk/components": "file:./components",
     "dayjs": "^1.11.20",
     "formik": "^2.4.9",
     "lodash": "^4.17.23",

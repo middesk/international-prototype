@@ -5,7 +5,7 @@ import styled from 'styled-components'
 const BackBtn = styled.button`
   background: none;
   border: none;
-  color: #3C5A61;
+  color: ${p => p.theme.accent};
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -14,7 +14,7 @@ const BackBtn = styled.button`
   display: flex;
   align-items: center;
   gap: 4px;
-  &:hover { color: #0B3139; }
+  &:hover { color: ${p => p.theme.textPrimary}; }
 `
 
 const Header = styled.div`
@@ -27,7 +27,7 @@ const Header = styled.div`
 const BusinessTitle = styled.h1`
   font-size: 26px;
   font-weight: 600;
-  color: #0B3139;
+  color: ${p => p.theme.textPrimary};
   margin-bottom: 8px;
 `
 
@@ -60,7 +60,7 @@ const Badge = styled.span`
 
 const OrderIdText = styled.span`
   font-size: 12px;
-  color: #9DADB0;
+  color: ${p => p.theme.textFaint};
 `
 
 const Grid = styled.div`
@@ -72,10 +72,10 @@ const Grid = styled.div`
 `
 
 const Card = styled.div`
-  background: #fff;
+  background: ${p => p.theme.surface};
   border-radius: 10px;
   padding: 24px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
 `
 
 const FullCard = styled(Card)`
@@ -85,12 +85,12 @@ const FullCard = styled(Card)`
 const CardTitle = styled.h3`
   font-size: 11px;
   font-weight: 600;
-  color: #9DADB0;
+  color: ${p => p.theme.textFaint};
   text-transform: uppercase;
   letter-spacing: 0.6px;
   margin-bottom: 16px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #ECF0F4;
+  border-bottom: 1px solid ${p => p.theme.borderLight};
 `
 
 const AttrRow = styled.div`
@@ -101,7 +101,7 @@ const AttrRow = styled.div`
 const AttrLabel = styled.div`
   font-size: 11px;
   font-weight: 600;
-  color: #9DADB0;
+  color: ${p => p.theme.textFaint};
   text-transform: uppercase;
   letter-spacing: 0.4px;
   margin-bottom: 3px;
@@ -109,30 +109,30 @@ const AttrLabel = styled.div`
 
 const AttrValue = styled.div`
   font-size: 14px;
-  color: #0B3139;
+  color: ${p => p.theme.textPrimary};
   font-weight: 500;
   line-height: 1.4;
-  &:empty::before { content: '—'; color: #BDC2C9; }
+  &:empty::before { content: '—'; color: ${p => p.theme.textFaintest}; }
 `
 
 const TabBar = styled.div`
   display: flex;
-  border-bottom: 2px solid #D9E0E8;
+  border-bottom: 2px solid ${p => p.theme.border};
   margin-bottom: 24px;
 `
 
 const Tab = styled.button`
   background: none;
   border: none;
-  border-bottom: 2px solid ${p => p.$active ? '#3C5A61' : 'transparent'};
+  border-bottom: 2px solid ${p => p.$active ? p.theme.accent : 'transparent'};
   margin-bottom: -2px;
   padding: 10px 20px;
   font-size: 13.5px;
   font-weight: ${p => p.$active ? 600 : 500};
-  color: ${p => p.$active ? '#3C5A61' : '#5F6874'};
+  color: ${p => p.$active ? p.theme.accent : p.theme.textMuted};
   cursor: pointer;
   transition: color 150ms;
-  &:hover { color: #0B3139; }
+  &:hover { color: ${p => p.theme.textPrimary}; }
 `
 
 const TableEl = styled.table`
@@ -145,24 +145,24 @@ const PTh = styled.th`
   padding: 8px 0 10px;
   font-size: 11px;
   font-weight: 600;
-  color: #9DADB0;
+  color: ${p => p.theme.textFaint};
   text-transform: uppercase;
   letter-spacing: 0.4px;
-  border-bottom: 1px solid #ECF0F4;
+  border-bottom: 1px solid ${p => p.theme.borderLight};
 `
 
 const PTd = styled.td`
   padding: 12px 0;
   font-size: 13.5px;
-  color: #333;
-  border-bottom: 1px solid #ECF0F4;
+  color: ${p => p.theme.text};
+  border-bottom: 1px solid ${p => p.theme.borderLight};
   vertical-align: middle;
   &:last-child { border-bottom: none; }
 `
 
 const PersonName = styled.div`
   font-weight: 600;
-  color: #0B3139;
+  color: ${p => p.theme.textPrimary};
 `
 
 const ShareRow = styled.div`
@@ -170,17 +170,17 @@ const ShareRow = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 12px 0;
-  border-bottom: 1px solid #ECF0F4;
+  border-bottom: 1px solid ${p => p.theme.borderLight};
   &:last-child { border-bottom: none; }
 `
 
 const SourceBox = styled.div`
-  background: #ECF0F4;
-  border: 1px solid #D9E0E8;
+  background: ${p => p.theme.surface2};
+  border: 1px solid ${p => p.theme.border};
   border-radius: 10px;
   padding: 12px 16px;
   font-size: 12px;
-  color: #5F6874;
+  color: ${p => p.theme.textMuted};
   display: flex;
   align-items: center;
   gap: 8px;
@@ -195,8 +195,8 @@ const PendingCard = styled(Card)`
 const Spinner = styled.div`
   width: 32px;
   height: 32px;
-  border: 3px solid #ECF0F4;
-  border-top-color: #3C5A61;
+  border: 3px solid ${p => p.theme.borderLight};
+  border-top-color: ${p => p.theme.accent};
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   margin: 0 auto 20px;
@@ -206,13 +206,13 @@ const Spinner = styled.div`
 const PendingTitle = styled.h3`
   font-size: 16px;
   font-weight: 600;
-  color: #0B3139;
+  color: ${p => p.theme.textPrimary};
   margin-bottom: 8px;
 `
 
 const PendingDesc = styled.p`
   font-size: 13px;
-  color: #5F6874;
+  color: ${p => p.theme.textMuted};
   max-width: 420px;
   margin: 0 auto;
   line-height: 1.6;
@@ -238,7 +238,7 @@ export default function OrderDetailPage({ orders }) {
     return (
       <div>
         <BackBtn onClick={() => navigate('/')}>&lsaquo; Businesses</BackBtn>
-        <p style={{ color: '#5F6874' }}>Order not found.</p>
+        <p style={{ color: '#5E7E87' }}>Order not found.</p>
       </div>
     )
   }
@@ -355,9 +355,9 @@ export default function OrderDetailPage({ orders }) {
                         <tr key={i}>
                           <PTd><PersonName>{p.name}</PersonName></PTd>
                           <PTd><Badge $v="type" style={{ fontSize: 11 }}>{p.type}</Badge></PTd>
-                          <PTd style={{ color: '#5F6874' }}>{p.effectiveDate}</PTd>
-                          {p.dob && <PTd style={{ color: '#5F6874' }}>{p.dob}</PTd>}
-                          {p.address && <PTd style={{ color: '#5F6874' }}>{p.address}</PTd>}
+                          <PTd style={{ color: '#5E7E87' }}>{p.effectiveDate}</PTd>
+                          {p.dob && <PTd style={{ color: '#5E7E87' }}>{p.dob}</PTd>}
+                          {p.address && <PTd style={{ color: '#5E7E87' }}>{p.address}</PTd>}
                         </tr>
                       ))}
                     </tbody>
@@ -372,10 +372,10 @@ export default function OrderDetailPage({ orders }) {
                       <div>
                         <PersonName>{s.name}</PersonName>
                         {s.shareCount && (
-                          <div style={{ fontSize: 11, color: '#9DADB0', marginTop: 2 }}>{s.shareCount} shares</div>
+                          <div style={{ fontSize: 11, color: '#3D5D66', marginTop: 2 }}>{s.shareCount} shares</div>
                         )}
                       </div>
-                      <div style={{ fontWeight: 700, color: '#3C5A61', fontSize: 14 }}>{s.sharePercentage}</div>
+                      <div style={{ fontWeight: 700, color: '#4A7A84', fontSize: 14 }}>{s.sharePercentage}</div>
                     </ShareRow>
                   ))}
                 </FullCard>
@@ -398,7 +398,7 @@ export default function OrderDetailPage({ orders }) {
                   {r.events.map((e, i) => (
                     <tr key={i}>
                       <PTd><Badge $v="type" style={{ fontSize: 11 }}>{e.type}</Badge></PTd>
-                      <PTd style={{ color: '#5F6874', whiteSpace: 'nowrap' }}>{e.date}</PTd>
+                      <PTd style={{ color: '#5E7E87', whiteSpace: 'nowrap' }}>{e.date}</PTd>
                       <PTd>{e.description}</PTd>
                     </tr>
                   ))}

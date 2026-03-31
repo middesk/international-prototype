@@ -79,7 +79,27 @@ const Footer = styled.div`
   color: #5F6874;
 `
 
-export default function Sidebar() {
+const ThemeToggle = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 20px;
+  background: none;
+  border: none;
+  color: #9DADB0;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 150ms;
+  font-family: inherit;
+  text-align: left;
+  margin-bottom: 4px;
+
+  &:hover { color: #CED6D7; }
+`
+
+export default function Sidebar({ isDark, onToggleDark }) {
   return (
     <Nav>
       <Logo>middesk</Logo>
@@ -119,6 +139,31 @@ export default function Sidebar() {
       </StyledNavLink>
 
       <Spacer />
+      <ThemeToggle onClick={onToggleDark}>
+        {isDark ? (
+          <>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="8" cy="8" r="3.5"/>
+              <line x1="8" y1="1" x2="8" y2="2.5"/>
+              <line x1="8" y1="13.5" x2="8" y2="15"/>
+              <line x1="1" y1="8" x2="2.5" y2="8"/>
+              <line x1="13.5" y1="8" x2="15" y2="8"/>
+              <line x1="3.1" y1="3.1" x2="4.2" y2="4.2"/>
+              <line x1="11.8" y1="11.8" x2="12.9" y2="12.9"/>
+              <line x1="12.9" y1="3.1" x2="11.8" y2="4.2"/>
+              <line x1="4.2" y1="11.8" x2="3.1" y2="12.9"/>
+            </svg>
+            Light mode
+          </>
+        ) : (
+          <>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M13.5 10A6 6 0 0 1 6 2.5a6 6 0 1 0 7.5 7.5z"/>
+            </svg>
+            Dark mode
+          </>
+        )}
+      </ThemeToggle>
       <Footer>&copy; 2026 Middesk, Inc.</Footer>
     </Nav>
   )
