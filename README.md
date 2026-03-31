@@ -4,7 +4,7 @@ Interactive prototype for Middesk's International Know Your Business (KYB) verif
 
 ## Demo
 
-<video src="public/demo.mp4" width="100%" autoplay loop muted></video>
+![International KYB prototype demo](public/demo.gif)
 
 ## What this covers
 
