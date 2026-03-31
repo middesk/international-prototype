@@ -41,6 +41,11 @@ Built into the prototype for walking designers and stakeholders through UX consi
 Orders on the dashboard that demonstrate specific design challenges:
 - Gibraltar (empty report), Tencent/China (CJK characters), Quebec (French registry), Revolut (multi-jurisdiction cross-country), Shopify Federal (federal vs. provincial), SolarTech (corporate shareholders), Nordic Payments (no address + foreign status), Sea Limited (async/pending)
 
+## Related resources
+
+- [International KYB PRD](https://docs.google.com/document/d/1AECwXw8cHqfuwkcs3_HuuV5BEyx5eBr-U8SHd5j-GE0/edit?tab=t.0#heading=h.il9g0qjetxma) — Product requirements document
+- [International Product — Data Flows (Figma)](https://www.figma.com/board/DuR3IlExACEaD5kFQ07d44/International-Product---Data-Flows?node-id=5-30) — API order flows across vendors (Kyckr, AsiaVerify, RegHub)
+
 ## Running locally
 
 ```bash
