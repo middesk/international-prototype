@@ -19,25 +19,26 @@ Interactive prototype for Middesk's International Know Your Business (KYB) verif
 
 | Branch | Purpose | How to use |
 |---|---|---|
-| `main` | Clean prototype — order flow, business select, settings, mock data | Default demo branch. Run as-is for stakeholder walkthroughs |
-| `explore/autocomplete-prototype` | Autocomplete search exploration with component library, dark/light theme, and smart-populated order forms | Checkout to demo the autocomplete UX direction |
-| `explore/ux-tension-review` | Design review toolkit — annotated overlay, flow map, vendor gaps analysis, and state patterns reference | Checkout to walk designers through UX tension points and edge cases |
+| `main` | Prototype + design review tools | Default branch. Demo the product flow, or use the design review pages to walk through UX tensions |
+| `explore/autocomplete-prototype` | Alternate order flow with type-ahead search | Checkout to demo a different UX direction for the order creation experience |
 
 ### `main`
-The baseline prototype. Clean order flow with region selection, business search, and mock registry results across Canada, Core Europe, Extended Europe, and APAC.
+The prototype with design review tooling baked in. Includes the full order flow (region selection, business search, mock registry results) plus design review pages accessible from the sidebar.
 
 ### `explore/autocomplete-prototype`
-Extends main with an autocomplete search experience — type-ahead matching against a mock identity index, smart-populated forms when a registration number is found, and the `@middesk/components` library integrated with theme support.
+A competing UX direction that replaces the order form with an autocomplete search experience — type-ahead matching against a mock identity index, smart-populated forms when a registration number is found, and the `@middesk/components` library with theme support. This is a separate branch because it's a different product direction, not additive tooling.
 
-### `explore/ux-tension-review`
-Design review branch with four tools for walking through UX considerations:
+## Design review tools (on `main`)
+
+Built into the prototype for walking designers and stakeholders through UX considerations:
 
 - **Design Review overlay** — Toggle button (bottom-right) that pins numbered annotations to UI elements. Each callout describes a design tension with persona-specific perspectives (Compliance, Ops, PM). Next/Prev navigates across pages with mock data injected automatically. Also activatable via `?review=true` query param.
 - **Flow Map** (`/flow-map`) — Zoomed-out product flow diagram with tension points mapped to each stage. Click any tension to expand details, then "View in prototype" to jump to the live UI.
 - **Vendor Gaps** (`/vendor-gaps`) — Table mapping 10 vendor-driven UX tensions to their root cause across Kyckr, AsiaVerify, and RegHub. Expandable rows show where each gap surfaces in the product.
 - **State Patterns** (`/state-patterns`) — Reference of 35 UI states across 7 product areas that designers need to account for. Each state links to a sample order that demonstrates it.
 
-Edge-case sample orders included:
+### Edge-case sample orders
+Orders on the dashboard that demonstrate specific design challenges:
 - Gibraltar (empty report), Tencent/China (CJK characters), Quebec (French registry), Revolut (multi-jurisdiction cross-country), Shopify Federal (federal vs. provincial), SolarTech (corporate shareholders), Nordic Payments (no address + foreign status), Sea Limited (async/pending)
 
 ## Running locally
