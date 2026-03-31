@@ -46,6 +46,71 @@ Orders on the dashboard that demonstrate specific design challenges:
 - [International KYB PRD](https://docs.google.com/document/d/1AECwXw8cHqfuwkcs3_HuuV5BEyx5eBr-U8SHd5j-GE0/edit?tab=t.0#heading=h.il9g0qjetxma) — Product requirements document
 - [International Product — Data Flows (Figma)](https://www.figma.com/board/DuR3IlExACEaD5kFQ07d44/International-Product---Data-Flows?node-id=5-30) — API order flows across vendors (Kyckr, AsiaVerify, RegHub)
 
+## First-time setup
+
+If you've never used Git or GitHub on your machine, follow these steps. If you already have SSH keys and Node.js, skip to "Running locally."
+
+### 1. Install prerequisites
+
+**Node.js** (required to run the prototype):
+```bash
+brew install node
+```
+
+**Git** (usually pre-installed on Mac, but just in case):
+```bash
+brew install git
+```
+
+### 2. Set up GitHub SSH keys
+
+SSH keys let your machine authenticate with GitHub without entering a password every time.
+
+**Check if you already have keys:**
+```bash
+ls ~/.ssh/id_ed25519.pub
+```
+If that prints a file path, you already have a key — skip to "Add your key to GitHub."
+
+**Generate a new key:**
+```bash
+ssh-keygen -t ed25519 -C "your.email@middesk.com"
+```
+Press Enter to accept the default file location. You can set a passphrase or leave it empty.
+
+**Add your key to the SSH agent:**
+```bash
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+```
+
+**Add your key to GitHub:**
+```bash
+pbcopy < ~/.ssh/id_ed25519.pub
+```
+This copies your public key. Then go to [GitHub → Settings → SSH Keys → New SSH Key](https://github.com/settings/keys), paste it, and save.
+
+**Test the connection:**
+```bash
+ssh -T git@github.com
+```
+You should see "Hi [username]! You've successfully authenticated."
+
+### 3. Configure Git identity
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your.email@middesk.com"
+```
+
+### Alternative: use HTTPS instead of SSH
+
+If SSH feels like too much setup, you can clone via HTTPS instead. You'll need to [create a personal access token](https://github.com/settings/tokens) and use it as your password when prompted:
+
+```bash
+git clone https://github.com/middesk/international-prototype.git
+```
+
 ## Running locally
 
 ```bash
